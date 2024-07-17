@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from utils import calculate_statiscal_descriptors, remove_outliers, chi2_test, anova_test
+from utils import calculate_statiscal_descriptors, remove_outliers, chi2_test, anova_test, fill_null_with_mean
 
 from sklearn.preprocessing import LabelEncoder
 
@@ -20,7 +20,7 @@ def data_loading(path):
     Returns:
         pd.DataFrame: Dataframe de pandas con los datos del archivo csv.
     """
-    data = pd.read_csv(path)
+    data = pd.read_csv(path, encoding="utf-8")
     return data
 
 
@@ -48,33 +48,11 @@ def data_nulls_processing(df):
     Returns:
         pd.DataFrame: Dataframe de pandas procesado.
     """
-    #df = df.dropna()
-    #df["tempo"] = df["tempo"].apply(lambda x: replace_tempo_values(x))
-    #df["tempo"] = df["tempo"].astype(float)
-    #mean_tempo = df["tempo"].mean()
-    #df["tempo"] = df["tempo"].fillna(mean_tempo)
-    mean_value_NO2 = df["NO2"].mean()
-    mean_value_O3 = df["O3"].mean()
-    mean_value_PM25 = df["PM2.5"].mean()
-    mean_value_PM10 = df["PM10"].mean()
-    mean_value_NO2 = df["Wind-Speed U"].mean()
-    mean_value_O3 = df["Wind-Speed V"].mean()
-    mean_value_PM25 = df["Dewpoint Temp"].mean()
-    mean_value_PM10 = df["Soil Temp"].mean()
-    mean_value_O3 = df["Total Percipitation"].mean()
-    mean_value_PM25 = df["Temp"].mean()
-    mean_value_PM10 = df["Relative Humidity"].mean()
-    df["NO2"] = df["NO2"].fillna(mean_value_NO2)
-    df["O3"] = df["O3"].fillna(mean_value_O3)
-    df["PM2.5"] = df["PM2.5"].fillna(mean_value_PM25)
-    df["PM10"] = df["PM10"].fillna(mean_value_PM10)
-    df["Wind-Speed U"] = df["Wind-Speed U"].fillna(mean_value_NO2)
-    df["Wind-Speed V"] = df["Wind-Speed V"].fillna(mean_value_O3)
-    df["Dewpoint Temp"] = df["Dewpoint Temp"].fillna(mean_value_PM25)
-    df["Soil Temp"] = df["Soil Temp"].fillna(mean_value_PM10)
-    df["Total Percipitation"] = df["Total Percipitation"].fillna(mean_value_O3)
-    df["Temp"] = df["Temp"].fillna(mean_value_PM25)
-    df["Relative Humidity"] = df["Relative Humidity"].fillna(mean_value_PM10)
+    df = df.dropna(subset=["PM10", "PM2.5"])
+    # saco las columnas con nulos, que son realmente necesarias
+    columns_nulls = df.columns[df.isnull().any()]
+    for col in columns_nulls:
+        df = fill_null_with_mean(col, df)
     return df
 
 

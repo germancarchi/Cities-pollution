@@ -22,4 +22,4 @@ def pipeline_datos_limpios(path):
     df.to_csv("../../data/processed_data_lc.csv", index=False)
 
 if __name__ == "__main__":
-    pipeline_datos_limpios(path="../visual/data/athens_data.csv")
+    pipeline_datos_limpios(path="../../data/athens_data.csv")

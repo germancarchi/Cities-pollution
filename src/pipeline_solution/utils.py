@@ -35,3 +35,8 @@ def anova_test(data, feature, target):
     groups = data.groupby(target)[feature].apply(list)
     stat, p = f_oneway(*groups)
     return p
+
+def fill_null_with_mean(col, df):
+    mean = np.mean(df[col])
+    df[col] = df[col].fillna(mean)
+    return df
