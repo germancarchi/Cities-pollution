@@ -1,0 +1,19 @@
+PM10: ['NO2',
+ 'O3',
+ 'PM10',
+ 'PM2.5',
+ 'Latitude',
+ 'Longitude',
+ 'Total Percipitation',
+ 'month',
+ 'Prec_Humedad']
+PM25: 
+['NO2',
+ 'O3',
+ 'PM10',
+ 'PM2.5',
+ 'Soil Temp',
+ 'Total Percipitation',
+ 'Temp',
+ 'month',
+ 'season']
